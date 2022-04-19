@@ -13,29 +13,46 @@
 <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.4/firebase-auth-compat.js"></script>
 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 
 <script>
-    const firebaseApp = firebase.initializeApp({ 
-        apiKey: "AIzaSyDWmjxUd-yjj6TEcPsqEHj5eUvnle2gySY",
+    // const firebaseApp = firebase.initializeApp({ 
+    //     apiKey: "AIzaSyDWmjxUd-yjj6TEcPsqEHj5eUvnle2gySY",
 
-        authDomain: "django-rest-8159a.firebaseapp.com",
+    //     authDomain: "django-rest-8159a.firebaseapp.com",
 
-        projectId: "django-rest-8159a",
+    //     projectId: "django-rest-8159a",
 
-        storageBucket: "django-rest-8159a.appspot.com",
+    //     storageBucket: "django-rest-8159a.appspot.com",
 
-        messagingSenderId: "625369925926",
+    //     messagingSenderId: "625369925926",
 
-        appId: "1:625369925926:web:59a9efe52e67af78b959e7"
+    //     appId: "1:625369925926:web:59a9efe52e67af78b959e7"
 
-    });
-    const db = firebaseApp.firestore();
-    const auth = firebaseApp.auth();
+    // });
+    // const db = firebaseApp.firestore();
+    // const auth = firebaseApp.auth();
 
     
     
 
     function login(){
+        var firebaseConfig = {
+            apiKey: "AIzaSyDWmjxUd-yjj6TEcPsqEHj5eUvnle2gySY",
+
+            authDomain: "django-rest-8159a.firebaseapp.com",
+
+            projectId: "django-rest-8159a",
+
+            storageBucket: "django-rest-8159a.appspot.com",
+
+            messagingSenderId: "625369925926",
+
+            appId: "1:625369925926:web:59a9efe52e67af78b959e7"
+        }
+        // inicializar firebase
+        firebase.initializeApp(firebaseConfig);
         var provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth()
             .signInWithPopup(provider)
@@ -44,7 +61,7 @@
                 var credential = result.credential;
 
                 // This gives you a Google Access Token. You can use it to access the Google API.
-                var token = credential.idToken;
+                var token = result.credential.idToken;
                 // The signed-in user info.
                 var user = result.user;
                 
@@ -52,6 +69,12 @@
                 user.getIdtoken().then(
                     function(idToken) {
                         console.log(idToken)
+                        var data = {'token_id': idToken}
+                        axios.post('/api/google-login/', data).then(
+                            function(response) {
+                                console.log(response)
+                            }
+                        )
                     }).catch(function(error) {
                         
                     })
