@@ -38,6 +38,7 @@
     
 
     function login(){
+        
         var firebaseConfig = {
             apiKey: "AIzaSyDWmjxUd-yjj6TEcPsqEHj5eUvnle2gySY",
 
@@ -58,17 +59,17 @@
             .signInWithPopup(provider)
             .then((result) => {
                 /** @type {firebase.auth.OAuthCredential} */
-                var credential = result.credential;
+                // var credential = result.credential;
 
                 // This gives you a Google Access Token. You can use it to access the Google API.
                 var token = result.credential.idToken;
                 // The signed-in user info.
                 var user = result.user;
-                
+                console.log('token', token)
                 // recuperar id token user
-                user.getIdtoken().then(
+                user.getIdToken().then(
                     function(idToken) {
-                        console.log(idToken)
+                        console.log('idtoken', idToken)
                         var data = {'token_id': idToken}
                         axios.post('/api/google-login/', data).then(
                             function(response) {

@@ -56,7 +56,7 @@ class GoogleLoginView(APIView):
             'email': usuario.email,
             'full_name': usuario.full_name,
             'genero': usuario.genero,
-            'date_birth': usuario.date_birt,
+            'date_birth': usuario.date_birth,
             'city': usuario.city
         }        
 
